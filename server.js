@@ -2,11 +2,15 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
+const workoutRouter = require('./routes/workout');
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.json('Hello world');
+app.use('/api/workouts', workoutRouter);
+
+app.use((req, res, next) => {
+  console.log(req.method, req.path);
+  next();
 });
 
 mongoose
