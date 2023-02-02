@@ -1,4 +1,3 @@
-const { json } = require('express');
 const mongoose = require('mongoose');
 const Workout = require('../models/Workout');
 
@@ -15,16 +14,21 @@ const getSingleWorkout = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.isValidObjectId(id)) {
-    return res.status(404).json({ error: 'Workout could not be found' });
+    return res.status(404).json({ error: 'Workout was not found' });
   }
 
-  const workout = await Workout.findById(id);
+  try {
+    const workout = await Workout.findById(id); // Returns a query
 
-  if (!workout) {
-    return res.status(404).json({ error: 'Workout could not be found' });
+    // Check if the query is empty, if so then no workout was found
+    if (!workout) {
+      return res.status(404).json({ error: 'Workout was not found' });
+    }
+
+    res.status(200).json(workout);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-
-  res.status(200).json(workout);
 };
 
 const createWorkout = async (req, res) => {
@@ -79,7 +83,7 @@ const updateWorkout = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.isValidObjectId(id)) {
-    return res.status(404).json({ error: 'Workout could not be found' });
+    return res.status(404).json({ error: 'Workout was not found' });
   }
 
   const { title, load, loadUnits, series, reps } = req.body;
@@ -114,17 +118,39 @@ const updateWorkout = async (req, res) => {
       .json({ error: 'Please select a valid load unit (kg, lbs)' });
   }
 
-  const workout = await Workout.findByIdAndUpdate(id, { ...req.body });
+  try {
+    const workout = await Workout.findByIdAndUpdate(id, { ...req.body }); // Returns a query
 
-  if (!workout) {
-    return res.status(404).json({ error: 'Workout could not be updated' });
+    // Check if the query is empty, if so then no workout was found
+    if (!workout) {
+      return res.status(404).json({ error: 'Workout was not found' });
+    }
+
+    res.status(200).json(workout);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-
-  res.status(200).json(workout);
 };
 
 const deleteWorkout = async (req, res) => {
-  res.json({ msg: 'DELETE workout' });
+  const { id } = req.params;
+
+  if (!mongoose.isValidObjectId(id)) {
+    return res.status(404).json({ error: 'Workout was not found' });
+  }
+
+  try {
+    const workout = await Workout.findByIdAndDelete(id); // Returns a query
+
+    // Check if the query is empty, if so then no workout was found
+    if (!workout) {
+      return res.status(404).json({ error: 'Workout was not found' });
+    }
+
+    res.status(200).json(workout);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 module.exports = {
