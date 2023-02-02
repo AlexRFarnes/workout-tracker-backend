@@ -1,24 +1,36 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
-const workoutRouter = require('./routes/workout');
+const workoutRoutes = require('./routes/workouts');
 
 // express app
 const app = express();
 
+// CORS options
+var corsOptions = {
+  origin: 'http://localhost:5173',
+  //   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
 // middlewares
+app.use(cors(corsOptions)); // overcome the CORS restriction during development
+
+app.use(express.json()); // attach the data in the body to the request object [POST, PATCH]
+
 app.use((req, res, next) => {
   console.log(req.method, req.path);
   next();
 });
 
-// Routes
-app.use('/api/workouts', workoutRouter);
+// routes
+app.use('/api/workouts', workoutRoutes);
 
 // DB connection
 mongoose
-  .connect(process.env.MONGO_URI, () => {
+  .connect(process.env.MONGO_URI)
+  .then(() => {
     console.log(`Connected to the DB successfully`);
 
     // listen for requests
@@ -27,5 +39,5 @@ mongoose
     });
   })
   .catch(error => {
-    console.error(error);
+    console.log(error);
   });
