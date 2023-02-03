@@ -42,10 +42,6 @@ const createWorkout = async (req, res) => {
     emptyFields.push('title');
   }
 
-  if (!load) {
-    emptyFields.push('load');
-  }
-
   if (!series) {
     emptyFields.push('series');
   }
@@ -61,7 +57,7 @@ const createWorkout = async (req, res) => {
   if (emptyFields.length > 0) {
     return res
       .status(400)
-      .json({ error: 'All fields are required', emptyFields });
+      .json({ error: 'Please fill the required fields', emptyFields });
   }
 
   if (!['kg', 'lbs'].includes(loadUnits)) {
@@ -101,10 +97,6 @@ const updateWorkout = async (req, res) => {
     emptyFields.push('title');
   }
 
-  if (!load) {
-    emptyFields.push('load');
-  }
-
   if (!series) {
     emptyFields.push('series');
   }
@@ -120,7 +112,7 @@ const updateWorkout = async (req, res) => {
   if (emptyFields.length > 0) {
     return res
       .status(400)
-      .json({ error: 'All fields are required', emptyFields });
+      .json({ error: 'Please fill the required fields', emptyFields });
   }
 
   if (!['kg', 'lbs'].includes(loadUnits)) {
