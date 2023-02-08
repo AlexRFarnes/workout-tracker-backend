@@ -3,9 +3,10 @@ const User = require('../models/User');
 // login
 const login = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email, password);
 
   try {
-    const user = User.loginUser({ email, password });
+    const user = await User.loginUser({ email, password });
 
     res.status(200).json(user);
   } catch (error) {

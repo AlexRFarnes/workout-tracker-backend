@@ -23,6 +23,29 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+// static login method
+userSchema.statics.loginUser = async function ({ email, password }) {
+  // Validation
+  if (!email || !password) {
+    throw Error('All fields are required.');
+  }
+
+  const user = await this.findOne({ email });
+
+  if (!user) {
+    throw Error('Incorrect email');
+  }
+
+  const passwordMatch = await bcrypt.compare(password, user.password);
+
+  if (!passwordMatch) {
+    throw Error('Incorrect password');
+  }
+
+  return user;
+};
+
+// static signup method
 userSchema.statics.signupUser = async function ({ email, password, username }) {
   // Validation
   if (!email || !password) {
