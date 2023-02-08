@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 const workoutRoutes = require('./routes/workouts');
+const userRoutes = require('./routes/user');
 
 // express app
 const app = express();
@@ -11,7 +12,6 @@ const app = express();
 // CORS options
 var corsOptions = {
   origin: 'http://localhost:5173',
-  //   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
 // middlewares
@@ -26,6 +26,7 @@ app.use((req, res, next) => {
 
 // routes
 app.use('/api/workouts', workoutRoutes);
+app.use('/api/user', userRoutes);
 
 // DB connection
 mongoose
