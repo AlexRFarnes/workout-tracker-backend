@@ -8,8 +8,7 @@ const workoutSchema = new mongoose.Schema(
     },
     load: {
       type: Number,
-      default: 0,
-      // required: true,
+      required: true,
     },
     loadUnits: {
       type: String,
