@@ -15,7 +15,7 @@ const getSingleWorkout = async (req, res) => {
 
   // Validation
   if (!mongoose.isValidObjectId(id)) {
-    return res.status(404).json({ error: 'Workout not found' });
+    return res.status(404).json({ error: 'Workout not found.' });
   }
 
   try {
@@ -23,7 +23,7 @@ const getSingleWorkout = async (req, res) => {
 
     // Check if the query is empty, then no workout was found
     if (!workout) {
-      return res.status(404).json({ error: 'Workout not found' });
+      return res.status(404).json({ error: 'Workout not found.' });
     }
 
     res.status(200).json(workout);
@@ -57,13 +57,13 @@ const createWorkout = async (req, res) => {
   if (emptyFields.length > 0) {
     return res
       .status(400)
-      .json({ error: 'Please fill the required fields', emptyFields });
+      .json({ error: 'Please fill the required fields.', emptyFields });
   }
 
   if (!['kg', 'lbs'].includes(loadUnits)) {
     return res
       .status(400)
-      .json({ error: 'Please select a valid load unit (kg, lbs)' });
+      .json({ error: 'Please select a valid load unit (kg, lbs).' });
   }
 
   try {
@@ -86,7 +86,7 @@ const updateWorkout = async (req, res) => {
 
   // Validations
   if (!mongoose.isValidObjectId(id)) {
-    return res.status(404).json({ error: 'Workout not found' });
+    return res.status(404).json({ error: 'Workout not found.' });
   }
 
   const { title, load, loadUnits, series, reps } = req.body;
@@ -112,13 +112,13 @@ const updateWorkout = async (req, res) => {
   if (emptyFields.length > 0) {
     return res
       .status(400)
-      .json({ error: 'Please fill the required fields', emptyFields });
+      .json({ error: 'Please fill the required fields.', emptyFields });
   }
 
   if (!['kg', 'lbs'].includes(loadUnits)) {
     return res
       .status(400)
-      .json({ error: 'Please select a valid load unit (kg, lbs)' });
+      .json({ error: 'Please select a valid load unit (kg, lbs).' });
   }
 
   try {
@@ -126,7 +126,7 @@ const updateWorkout = async (req, res) => {
 
     // Check if the query is empty, then no workout was found
     if (!workout) {
-      return res.status(404).json({ error: 'Workout not found' });
+      return res.status(404).json({ error: 'Workout not found.' });
     }
 
     res.status(200).json(workout);
@@ -140,7 +140,7 @@ const deleteWorkout = async (req, res) => {
 
   // Validation
   if (!mongoose.isValidObjectId(id)) {
-    return res.status(404).json({ error: 'Workout not found' });
+    return res.status(404).json({ error: 'Workout not found.' });
   }
 
   try {
@@ -148,7 +148,7 @@ const deleteWorkout = async (req, res) => {
 
     // Check if the query is empty, then no workout was found
     if (!workout) {
-      return res.status(404).json({ error: 'Workout not found' });
+      return res.status(404).json({ error: 'Workout not found.' });
     }
 
     res.status(200).json(workout);
