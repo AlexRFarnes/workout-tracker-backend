@@ -2,7 +2,15 @@ const User = require('../models/User');
 
 // login
 const login = async (req, res) => {
-  res.json({ msg: 'Login' });
+  const { email, password } = req.body;
+
+  try {
+    const user = User.loginUser({ email, password });
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 // signup
