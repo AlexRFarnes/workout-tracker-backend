@@ -23,30 +23,8 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// static login method
-userSchema.statics.loginUser = async function ({ email, password }) {
-  // Validation
-  if (!email || !password) {
-    throw Error('All fields are required.');
-  }
-
-  const user = await this.findOne({ email });
-
-  if (!user) {
-    throw Error('Incorrect email');
-  }
-
-  const passwordMatch = await bcrypt.compare(password, user.password);
-
-  if (!passwordMatch) {
-    throw Error('Incorrect password');
-  }
-
-  return user;
-};
-
 // static signup method
-userSchema.statics.signupUser = async function ({ email, password, username }) {
+userSchema.statics.signupUser = async function (email, username, password) {
   // Validation
   if (!email || !password) {
     throw Error('All fields are required.');
@@ -75,6 +53,28 @@ userSchema.statics.signupUser = async function ({ email, password, username }) {
   const hash = await bcrypt.hash(password, salt);
 
   const user = await this.create({ email, username, password: hash });
+
+  return user;
+};
+
+// static login method
+userSchema.statics.loginUser = async function (email, password) {
+  // Validation
+  if (!email || !password) {
+    throw Error('All fields must be filled.');
+  }
+
+  const user = await this.findOne({ email });
+
+  if (!user) {
+    throw Error('Incorrect email');
+  }
+
+  const passwordMatch = await bcrypt.compare(password, user.password);
+
+  if (!passwordMatch) {
+    throw Error('Incorrect password');
+  }
 
   return user;
 };
