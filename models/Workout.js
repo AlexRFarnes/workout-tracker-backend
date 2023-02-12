@@ -17,6 +17,10 @@ const workoutSchema = new mongoose.Schema(
     },
     reps: { type: Number, required: true },
     series: { type: Number, required: true },
+    userId: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
